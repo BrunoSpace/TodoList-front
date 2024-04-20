@@ -1,0 +1,21 @@
+.display-list {
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(17, 6, 6, 0.212);
+  padding-bottom: 0.5rem;
+}
+
+.label {
+  font-size: 1rem;
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+}
+
+.value {
+  font-size: 1.4rem;
+  padding-left: 20px;
+  font-weight: 700;
+  color: #1b6769;
+  font-style: italic;
+  letter-spacing: 1px;
+}
