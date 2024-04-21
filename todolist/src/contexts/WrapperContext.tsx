@@ -20,7 +20,7 @@ const WrapperContext = createContext<WrapperContextType>({
 export const useWrapperContext = (): WrapperContextType =>
   useContext(WrapperContext);
 
-export const EditProvider: React.FC<{ children: React.ReactNode }> = ({
+export const WrapperProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [updatedTodoItem, setUpdatedTodoItem] = useState<ITodoListDto>({

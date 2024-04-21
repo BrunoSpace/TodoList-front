@@ -1,14 +1,14 @@
 import "./App.css";
 
-import { EditProvider } from "./contexts/WrapperContext";
+import { WrapperProvider } from "./contexts/WrapperContext";
 import Wrapper from "./components/Wrapper";
 
 function App() {
   return (
     <div className="App">
-      <EditProvider>
+      <WrapperProvider>
         <Wrapper />
-      </EditProvider>
+      </WrapperProvider>
     </div>
   );
 }
