@@ -3,7 +3,7 @@ import "./EditForm.css";
 import { useState } from "react";
 import { ITodoListDto } from "../../../types/todo-list";
 import { updateTodoItem } from "./EditFormActions";
-import { useEditContext } from "../../../contexts/WrapperContext";
+import { useWrapperContext } from "../../../contexts/WrapperContext";
 
 interface EditFormProps {
   todo: ITodoListDto;
@@ -12,7 +12,6 @@ interface EditFormProps {
 
 const EditForm: React.FC<EditFormProps> = ({ todo, setOpenModal }) => {
   const { text, createdAt, updatedAt, done } = todo;
-
   const [todoData, setTodoData] = useState<Omit<ITodoListDto, "todoListId">>({
     text: text,
     done: done,
@@ -20,14 +19,16 @@ const EditForm: React.FC<EditFormProps> = ({ todo, setOpenModal }) => {
     updatedAt: updatedAt,
   });
 
-  const { isEdited, setIsEdited } = useEditContext();
+  const { setUpdatedTodoItem } = useWrapperContext();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    await updateTodoItem(todo.todoListId, todoData);
+    const data = await updateTodoItem(todo.todoListId, todoData);
 
-    setIsEdited(!isEdited);
+    setUpdatedTodoItem({
+      ...data,
+    });
 
     setOpenModal(false);
   };

@@ -12,3 +12,18 @@ export const sortTodoList = (
     }
   });
 };
+
+export const updateTodoItem = (
+  setTodos: React.Dispatch<React.SetStateAction<ITodoListDto[]>>,
+  todosList: ITodoListDto[],
+  updatedValues: ITodoListDto,
+  sortDirection: SortingType
+) => {
+  const newTodoList = todosList.map((todo: ITodoListDto) => {
+    return todo.todoListId === updatedValues.todoListId
+      ? { ...todo, ...updatedValues }
+      : todo;
+  });
+
+  setTodos(sortTodoList(newTodoList, sortDirection));
+};

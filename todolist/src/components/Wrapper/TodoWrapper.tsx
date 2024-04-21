@@ -2,9 +2,9 @@ import "./TodoWrapper.css";
 
 import { useEffect, useState } from "react";
 import { ITodoListDto, SortingType } from "../../types/todo-list";
-import { sortTodoList } from "./TodoWrapperHelper";
+import { sortTodoList, updateTodoItem } from "./TodoWrapperHelper";
 import { addTodo, getAllTodos } from "./TodoWrapperActions";
-import { useEditContext } from "../../contexts/WrapperContext";
+import { useWrapperContext } from "../../contexts/WrapperContext";
 
 import SortOrderDropdown from "../Sort/SortOrderDropdown";
 import InputForm from "../Forms/InputForm/InputForm";
@@ -14,22 +14,30 @@ import SearchForm from "../Forms/SearchForm";
 function TodoWrapper() {
   const [todosList, setTodos] = useState<ITodoListDto[]>([]);
   const [sortOrder, setSortOrder] = useState<SortingType>(SortingType.DESC);
-  const { isEdited } = useEditContext();
+  const { updatedTodoItem } = useWrapperContext();
+
+  useEffect(() => {
+    getAllTodos(sortOrder).then((data) => {
+      setTodos(data);
+    });
+  }, [sortOrder]);
+
+  useEffect(() => {
+    // update only item in list after item is updated in edit form!
+    if (updatedTodoItem.todoListId !== "") {
+      updateTodoItem(setTodos, todosList, updatedTodoItem, sortOrder);
+    }
+  }, [updatedTodoItem]);
 
   const createTodo = async (text: string) => {
     const newTodo = await addTodo(text);
+
     const updatedTodos = [...todosList, newTodo];
 
     sortTodoList(updatedTodos, sortOrder);
 
     setTodos(updatedTodos);
   };
-
-  useEffect(() => {
-    getAllTodos(sortOrder).then((data) => {
-      setTodos(data);
-    });
-  }, [sortOrder, isEdited]);
 
   return (
     <div className="TodoWrapper">

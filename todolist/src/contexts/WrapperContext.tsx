@@ -1,25 +1,39 @@
 import React, { createContext, useContext, useState } from "react";
+import { ITodoListDto } from "../types/todo-list";
 
-interface EditContextType {
-  isEdited: boolean;
-  setIsEdited: React.Dispatch<React.SetStateAction<boolean>>;
+interface WrapperContextType {
+  updatedTodoItem: ITodoListDto;
+  setUpdatedTodoItem: React.Dispatch<React.SetStateAction<ITodoListDto>>;
 }
 
-const EditContext = createContext<EditContextType>({
-  isEdited: false,
-  setIsEdited: () => {},
+const WrapperContext = createContext<WrapperContextType>({
+  updatedTodoItem: {
+    todoListId: "",
+    text: "",
+    done: false,
+    createdAt: "",
+    updatedAt: "",
+  },
+  setUpdatedTodoItem: () => {},
 });
 
-export const useEditContext = (): EditContextType => useContext(EditContext);
+export const useWrapperContext = (): WrapperContextType =>
+  useContext(WrapperContext);
 
 export const EditProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [isEdited, setIsEdited] = useState<boolean>(false);
+  const [updatedTodoItem, setUpdatedTodoItem] = useState<ITodoListDto>({
+    todoListId: "",
+    text: "",
+    done: false,
+    createdAt: "",
+    updatedAt: "",
+  });
 
   return (
-    <EditContext.Provider value={{ isEdited, setIsEdited }}>
+    <WrapperContext.Provider value={{ updatedTodoItem, setUpdatedTodoItem }}>
       {children}
-    </EditContext.Provider>
+    </WrapperContext.Provider>
   );
 };
